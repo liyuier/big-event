@@ -1,9 +1,12 @@
-package com;
+package com.itheima.pojo;
 
 
+
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class User {
     private Integer id;//主键ID
     private String username;//用户名
