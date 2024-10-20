@@ -13,4 +13,6 @@ import com.itheima.pojo.Result;
 public interface UserService {
 
     Result register(String username, String password);
+
+    Result login(String username, String password);
 }

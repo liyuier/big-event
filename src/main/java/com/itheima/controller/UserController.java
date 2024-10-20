@@ -29,4 +29,9 @@ public class UserController {
     public Result register(@Pattern(regexp = "^\\S{2,16}$") String username, @Pattern(regexp = "^\\S{2,16}$") String password) {
         return userService.register(username, password);
     }
+
+    @PostMapping("/login")
+    public Result login(@Pattern(regexp = "^\\S{2,16}$") String username, @Pattern(regexp = "^\\S{2,16}$") String password) {
+        return userService.login(username, password);
+    }
 }

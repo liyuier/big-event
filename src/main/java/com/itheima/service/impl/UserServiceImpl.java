@@ -25,10 +25,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result register(String username, String password) {
-        // 入参校验
-        if (!UserInfoLegal(username, password)) {
-            return Result.error("用户名或密码不合法！");
-        }
         // 查询用户是否存在
         User user = userMapper.findByUserName(username);
         // 注册
@@ -40,9 +36,25 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private boolean UserInfoLegal(String username, String password) {
-        return username != null && username.length() >= 5 && username.length() <= 16 &&
-                password != null && password.length() >= 5 && password.length() <= 16;
+    @Override
+    public Result login(String username, String password) {
+        // 根据用户名查询用户
+        User user = userMapper.findByUserName(username);
+        if (user == null) {
+            return Result.error("用户名不存在！");
+        }
+
+        // 判断密码是否正确
+        if (!passwordRight(user, password)) {
+            return Result.error("密码错误！");
+        }
+
+        // 登录
+        return Result.success("登录成功。。。");
+    }
+
+    private boolean passwordRight(User user, String password) {
+        return Md5Util.getMD5String(password).equals(user.getPassword());
     }
 
     private void registerANewUser(String username, String password) {
