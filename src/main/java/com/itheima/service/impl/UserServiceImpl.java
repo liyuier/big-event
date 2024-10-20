@@ -25,6 +25,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result register(String username, String password) {
+        // 入参校验
+        if (!UserInfoLegal(username, password)) {
+            return Result.error("用户名或密码不合法！");
+        }
         // 查询用户是否存在
         User user = userMapper.findByUserName(username);
         // 注册
@@ -34,6 +38,11 @@ public class UserServiceImpl implements UserService {
         } else {
             return Result.error("用户名已被占用！");
         }
+    }
+
+    private boolean UserInfoLegal(String username, String password) {
+        return username != null && username.length() >= 5 && username.length() <= 16 &&
+                password != null && password.length() >= 5 && password.length() <= 16;
     }
 
     private void registerANewUser(String username, String password) {
