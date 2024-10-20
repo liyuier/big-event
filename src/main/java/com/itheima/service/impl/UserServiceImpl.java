@@ -4,9 +4,12 @@ import com.itheima.mapper.UserMapper;
 import com.itheima.pojo.Result;
 import com.itheima.pojo.User;
 import com.itheima.service.UserService;
+import com.itheima.utils.JwtUtil;
 import com.itheima.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * @Title: UserServiceImpl
@@ -50,7 +53,13 @@ public class UserServiceImpl implements UserService {
         }
 
         // 登录
-        return Result.success("登录成功。。。");
+        // 生成 token
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("id", user.getId());
+        claims.put("username", user.getUsername());
+        String token = JwtUtil.genToken(claims);
+        // 返回生成的 token
+        return Result.success(token);
     }
 
     private boolean passwordRight(User user, String password) {
