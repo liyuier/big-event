@@ -10,6 +10,7 @@ import com.itheima.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,6 +76,13 @@ public class UserServiceImpl implements UserService {
         String username = (String) claim.get("username");
         // 响应
         return Result.success(userMapper.findByUserName(username));
+    }
+
+    @Override
+    public Result update(User user) {
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
+        return Result.success();
     }
 
     private boolean passwordRight(User user, String password) {

@@ -18,4 +18,6 @@ public interface UserService {
     Result login(String username, String password);
 
     Result<User> userInfo();
+
+    Result update(User user);
 }

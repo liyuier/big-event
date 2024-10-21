@@ -38,4 +38,9 @@ public class UserController {
     public Result<User> userInfo() {
         return userService.userInfo();
     }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody User user) {
+        return userService.update(user);
+    }
 }
