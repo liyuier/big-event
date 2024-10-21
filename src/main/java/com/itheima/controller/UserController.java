@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public Result<User> userInfo(@RequestHeader(name = "Authorization") String token) {
-        return userService.userInfo(token);
+    public Result<User> userInfo() {
+        return userService.userInfo();
     }
 }

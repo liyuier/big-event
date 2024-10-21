@@ -1,6 +1,7 @@
 package com.itheima.interceptors;
 
 import com.itheima.utils.JwtUtil;
+import com.itheima.utils.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -28,10 +29,19 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             // 正常解析，放行
             Map<String, Object> claims = JwtUtil.parseToken(token);
+
+            // 把业务数据存储到 ThreadLocal 中
+            ThreadLocalUtil.set(claims);
             return true;
         } catch (Exception e) {
             response.setStatus(401);
             return false;
         }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        // 响应完成，清除 ThreadLocal 中的数据，防止内存泄漏
+        ThreadLocalUtil.remove();
     }
 }

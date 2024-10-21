@@ -17,5 +17,5 @@ public interface UserService {
 
     Result login(String username, String password);
 
-    Result<User> userInfo(String token);
+    Result<User> userInfo();
 }

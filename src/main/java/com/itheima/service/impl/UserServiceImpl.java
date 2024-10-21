@@ -6,10 +6,12 @@ import com.itheima.pojo.User;
 import com.itheima.service.UserService;
 import com.itheima.utils.JwtUtil;
 import com.itheima.utils.Md5Util;
+import com.itheima.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Title: UserServiceImpl
@@ -67,9 +69,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<User> userInfo(String token) {
+    public Result<User> userInfo() {
         // 根据用户名查询用户
-        String username = (String) JwtUtil.parseToken(token).get("username");
+        Map<String, Object> claim = ThreadLocalUtil.get();
+        String username = (String) claim.get("username");
         // 响应
         return Result.success(userMapper.findByUserName(username));
     }
