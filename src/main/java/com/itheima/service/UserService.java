@@ -1,6 +1,7 @@
 package com.itheima.service;
 
 import com.itheima.pojo.Result;
+import com.itheima.pojo.User;
 
 /**
  * @Title: UserService
@@ -15,4 +16,6 @@ public interface UserService {
     Result register(String username, String password);
 
     Result login(String username, String password);
+
+    Result<User> userInfo(String token);
 }

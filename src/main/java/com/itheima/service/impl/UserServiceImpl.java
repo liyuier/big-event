@@ -54,12 +54,24 @@ public class UserServiceImpl implements UserService {
 
         // 登录
         // 生成 token
+        String token = generateToken(user);
+        // 返回生成的 token
+        return Result.success(token);
+    }
+
+    private String generateToken(User user) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("id", user.getId());
         claims.put("username", user.getUsername());
-        String token = JwtUtil.genToken(claims);
-        // 返回生成的 token
-        return Result.success(token);
+        return JwtUtil.genToken(claims);
+    }
+
+    @Override
+    public Result<User> userInfo(String token) {
+        // 根据用户名查询用户
+        String username = (String) JwtUtil.parseToken(token).get("username");
+        // 响应
+        return Result.success(userMapper.findByUserName(username));
     }
 
     private boolean passwordRight(User user, String password) {
