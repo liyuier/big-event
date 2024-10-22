@@ -4,6 +4,7 @@ import com.itheima.pojo.Result;
 import com.itheima.pojo.User;
 import com.itheima.service.UserService;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,10 @@ public class UserController {
     @PutMapping("/update")
     public Result update(@RequestBody @Validated User user) {
         return userService.update(user);
+    }
+
+    @PatchMapping("/updateAvatar")
+    public Result updateAvatar(@RequestParam @URL String avatarUrl) {
+        return userService.updateAvatar(avatarUrl);
     }
 }

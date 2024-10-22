@@ -85,6 +85,14 @@ public class UserServiceImpl implements UserService {
         return Result.success();
     }
 
+    @Override
+    public Result updateAvatar(String avatarUrl) {
+        Map<String, Object> claim = ThreadLocalUtil.get();
+        Integer id = (Integer) claim.get("id");
+        userMapper.updateAvatar(avatarUrl, id);
+        return Result.success();
+    }
+
     private boolean passwordRight(User user, String password) {
         return Md5Util.getMD5String(password).equals(user.getPassword());
     }

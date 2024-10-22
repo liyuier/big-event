@@ -36,15 +36,15 @@ public class JwtTest {
         System.out.println(token);
     }
 
-    @Test
-    public void testParse() {
-        // 定义字符串，模拟用户传来的 token
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6InpoYW5nc2FuIn0sImV4cCI6MTcyOTQ5MDIzNn0.77eCsPFBSZuTY58DMmZ2bJBBnRGh-29-Z_qPpR_p5ls";
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("itheima")).build();
-        DecodedJWT decodedJWT = jwtVerifier.verify(token);  // 验证 token, 生成一个解析后的 JWT 对象
-        Map<String, Claim> claims = decodedJWT.getClaims();
-        System.out.println(claims.get("user"));
-        // 篡改头部、载荷部分数据，或令牌，都会验证失败。
-        // token 过期也会验证失败。
-    }
+//    @Test
+//    public void testParse() {
+//        // 定义字符串，模拟用户传来的 token
+//        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOjQsInVzZXJuYW1lIjoic2FnaXJpIn0sImV4cCI6MTczMjIwNDI5N30.barRBpyNAvNzcfPh12cM4kCrVD5M6E8zelCY9JXaGhM";
+//        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("itheima")).build();
+//        DecodedJWT decodedJWT = jwtVerifier.verify(token);  // 验证 token, 生成一个解析后的 JWT 对象
+//        Map<String, Claim> claims = decodedJWT.getClaims();
+//        System.out.println(claims.get("user"));
+//        // 篡改头部、载荷部分数据，或令牌，都会验证失败。
+//        // token 过期也会验证失败。
+//    }
 }

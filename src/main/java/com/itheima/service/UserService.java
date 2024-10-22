@@ -20,4 +20,6 @@ public interface UserService {
     Result<User> userInfo();
 
     Result update(User user);
+
+    Result updateAvatar(String avatarUrl);
 }
