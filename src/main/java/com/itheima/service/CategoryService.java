@@ -19,4 +19,6 @@ public interface CategoryService {
     Result<List<Category>> list();
 
     Result<Category> detail(Integer id);
+
+    Result update(Category category);
 }
