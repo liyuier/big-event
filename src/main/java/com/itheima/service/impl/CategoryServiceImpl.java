@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +39,12 @@ public class CategoryServiceImpl implements CategoryService {
         category.setCreateUser(userId);
         categoryMapper.add(category);
         return Result.success();
+    }
+
+    @Override
+    public Result<List<Category>> list() {
+        Integer userName = ThreadLocalUtil.getUserId();
+        List<Category> categoryList = categoryMapper.list(userName);
+        return Result.success(categoryList);
     }
 }

@@ -1,5 +1,7 @@
 package com.itheima.utils;
 
+import com.itheima.pojo.User;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,5 +27,19 @@ public class ThreadLocalUtil {
     //清除ThreadLocal 防止内存泄漏
     public static void remove(){
         THREAD_LOCAL.remove();
+    }
+
+    // 获取用户名称
+    public static String getUserName() {
+        Map<String, Object> claim = get();
+        String username = (String) claim.get("username");
+        return username;
+    }
+
+    // 获取用户 ID
+    public static Integer getUserId() {
+        Map<String, Object> claim = get();
+        Integer userId = (Integer) claim.get("id");
+        return userId;
     }
 }

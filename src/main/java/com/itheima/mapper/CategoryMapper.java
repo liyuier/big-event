@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @Title: CategoryMapper
  * @Author yuier
@@ -22,4 +24,7 @@ public interface CategoryMapper {
 
     @Select("SELECT * FROM category WHERE category_name=#{categoryName}")
     Category findByName(String categoryName);
+
+    @Select("SELECT * FROM category WHERE create_user=#{userId}")
+    List<Category> list(Integer userId);
 }

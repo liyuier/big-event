@@ -3,6 +3,8 @@ package com.itheima.service;
 import com.itheima.pojo.Category;
 import com.itheima.pojo.Result;
 
+import java.util.List;
+
 /**
  * @Title: CategoryService
  * @Author yuier
@@ -13,4 +15,6 @@ import com.itheima.pojo.Result;
 
 public interface CategoryService {
     Result add(Category category);
+
+    Result<List<Category>> list();
 }
