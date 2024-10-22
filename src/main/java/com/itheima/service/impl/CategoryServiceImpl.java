@@ -47,4 +47,13 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categoryList = categoryMapper.list(userName);
         return Result.success(categoryList);
     }
+
+    @Override
+    public Result<Category> detail(Integer id) {
+        Category category = categoryMapper.findById(id);
+        if (!category.getCreateUser().equals(ThreadLocalUtil.getUserId())) {
+            return Result.error("你没有权限查看该分类详情！");
+        }
+        return Result.success(category);
+    }
 }

@@ -17,4 +17,6 @@ public interface CategoryService {
     Result add(Category category);
 
     Result<List<Category>> list();
+
+    Result<Category> detail(Integer id);
 }

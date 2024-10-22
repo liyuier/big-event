@@ -33,4 +33,9 @@ public class CategoryController {
     public Result<List<Category>> list() {
         return categoryService.list();
     }
+
+    @GetMapping("/detail")
+    public Result<Category> detail(Integer id) {
+        return categoryService.detail(id);
+    }
 }
