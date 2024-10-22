@@ -25,7 +25,8 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping
-    public Result add(@RequestBody @Validated Category category) {
+    public Result add(@RequestBody @Validated(Category.Add.class) Category category) {
+        // 指定校验分组为 Add，该分组中 categoryName, categoryAlias 需要校验不为空; categoryName, categoryAlias 需要校验符合正则表达式
         return categoryService.add(category);
     }
 
@@ -40,7 +41,12 @@ public class CategoryController {
     }
 
     @PutMapping
-    public Result update(@RequestBody @Validated Category category) {
+    public Result update(@RequestBody @Validated(Category.Update.class) Category category) {
         return categoryService.update(category);
+    }
+
+    @DeleteMapping
+    public Result delete(@Validated(Category.Delete.class) Integer id) {
+        return categoryService.delete(id);
     }
 }

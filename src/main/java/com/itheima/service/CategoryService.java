@@ -21,4 +21,6 @@ public interface CategoryService {
     Result<Category> detail(Integer id);
 
     Result update(Category category);
+
+    Result delete(Integer id);
 }

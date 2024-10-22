@@ -1,10 +1,7 @@
 package com.itheima.mapper;
 
 import com.itheima.pojo.Category;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -34,4 +31,7 @@ public interface CategoryMapper {
 
     @Update("UPDATE category SET category_name=#{categoryName}, category_alias=#{categoryAlias}, update_time=#{updateTime} WHERE id=#{id}")
     void update(Category category);
+
+    @Delete("DELETE FROM category WHERE id=#{id}")
+    void delete(Integer id);
 }

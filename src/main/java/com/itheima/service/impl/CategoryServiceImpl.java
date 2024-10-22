@@ -67,4 +67,14 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.update(category);
         return Result.success();
     }
+
+    @Override
+    public Result delete(Integer id) {
+        Category category = categoryMapper.findById(id);
+        if (!category.getCreateUser().equals(ThreadLocalUtil.getUserId())) {
+            return Result.error("你没有权限删除该分类！");
+        }
+        categoryMapper.delete(id);
+        return Result.success();
+    }
 }
