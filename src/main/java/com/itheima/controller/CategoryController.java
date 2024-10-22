@@ -38,4 +38,9 @@ public class CategoryController {
     public Result<Category> detail(Integer id) {
         return categoryService.detail(id);
     }
+
+    @PutMapping
+    public Result update(@RequestBody @Validated Category category) {
+        return categoryService.update(category);
+    }
 }

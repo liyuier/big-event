@@ -56,4 +56,15 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return Result.success(category);
     }
+
+    @Override
+    public Result update(Category category) {
+        Category existCategory = categoryMapper.findById(category.getId());
+        if (!existCategory.getCreateUser().equals(ThreadLocalUtil.getUserId())) {
+            return Result.error("你没有权限修改该分类详情！");
+        }
+        category.setUpdateTime(LocalDateTime.now());
+        categoryMapper.update(category);
+        return Result.success();
+    }
 }
