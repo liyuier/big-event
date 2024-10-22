@@ -3,6 +3,8 @@ package com.itheima.service;
 import com.itheima.pojo.Result;
 import com.itheima.pojo.User;
 
+import java.util.Map;
+
 /**
  * @Title: UserService
  * @Author yuier
@@ -22,4 +24,6 @@ public interface UserService {
     Result update(User user);
 
     Result updateAvatar(String avatarUrl);
+
+    Result updatePwd(Map<String, String> params);
 }

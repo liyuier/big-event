@@ -9,6 +9,7 @@ import com.itheima.utils.Md5Util;
 import com.itheima.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -90,6 +91,34 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> claim = ThreadLocalUtil.get();
         Integer id = (Integer) claim.get("id");
         userMapper.updateAvatar(avatarUrl, id);
+        return Result.success();
+    }
+
+    @Override
+    public Result updatePwd(Map<String, String> params) {
+        // 参数校验
+        // 三个参数是否都传过来了
+        String oldPwd = params.get("old_pwd");
+        String newPwd = params.get("new_pwd");
+        String rePwd = params.get("re_pwd");
+        if (!StringUtils.hasLength(oldPwd) ||
+                !StringUtils.hasLength(newPwd) ||
+                !StringUtils.hasLength(rePwd)) {
+            return Result.error("缺少必要参数！");
+        }
+        // 原密码是否正确
+        Map<String, Object> claim = ThreadLocalUtil.get();
+        String username = (String) claim.get("username");
+        User user = userMapper.findByUserName(username);
+        if (!user.getPassword().equals(Md5Util.getMD5String(oldPwd))) {
+            return Result.error("原密码输入错误！");
+        }
+        // 新密码是否成功确认
+        if (!newPwd.equals(rePwd)) {
+            return Result.error("两次填写的新密码不一样！");
+        }
+        Integer id = (Integer) claim.get("id");
+        userMapper.updatePwd(Md5Util.getMD5String(newPwd), id);
         return Result.success();
     }
 
