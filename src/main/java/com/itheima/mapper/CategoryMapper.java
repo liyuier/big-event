@@ -1,7 +1,12 @@
 package com.itheima.mapper;
 
 import com.itheima.pojo.Category;
-import org.apache.ibatis.annotations.*;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
