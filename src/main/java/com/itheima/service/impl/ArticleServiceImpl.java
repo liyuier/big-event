@@ -52,4 +52,16 @@ public class ArticleServiceImpl implements ArticleService {
         pb.setItems(p.getResult());
         return Result.success(pb);
     }
+
+    @Override
+    public Result<Article> detail(Integer id) {
+        Article article = articleMapper.findById(id);
+        if (article == null) {
+            return Result.error("没有该文章！");
+        }
+        if (!article.getCreateUser().equals(ThreadLocalUtil.getUserId())) {
+            return Result.error("没有权限获取该文章详情！");
+        }
+        return Result.success(article);
+    }
 }

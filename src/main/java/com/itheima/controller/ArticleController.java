@@ -38,4 +38,9 @@ public class ArticleController {
     ) {
         return articleService.list(pageNum, pageSize, categoryId, state);
     }
+
+    @GetMapping("/detail")
+    public Result<Article> detail(Integer id) {
+        return articleService.detail(id);
+    }
 }
