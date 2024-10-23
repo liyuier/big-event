@@ -20,4 +20,6 @@ public interface ArticleService {
     Result<Article> detail(Integer id);
 
     Result update(Article article);
+
+    Result delete(Integer id);
 }

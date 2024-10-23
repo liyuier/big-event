@@ -78,4 +78,17 @@ public class ArticleServiceImpl implements ArticleService {
         articleMapper.update(article);
         return Result.success();
     }
+
+    @Override
+    public Result delete(Integer id) {
+        Article article = articleMapper.findById(id);
+        if (article == null) {
+            return Result.error("没有该文章！");
+        }
+        if (!article.getCreateUser().equals(ThreadLocalUtil.getUserId())) {
+            return Result.error("没有权限删除该文章！");
+        }
+        articleMapper.delete(id);
+        return Result.success();
+    }
 }

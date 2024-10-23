@@ -48,4 +48,9 @@ public class ArticleController {
     public Result update(@RequestBody @Validated Article article) {
         return articleService.update(article);
     }
+
+    @DeleteMapping
+    public Result delete(Integer id) {
+        return articleService.delete(id);
+    }
 }
