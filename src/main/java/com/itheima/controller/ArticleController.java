@@ -4,6 +4,7 @@ import com.itheima.pojo.Article;
 import com.itheima.pojo.Result;
 import com.itheima.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,7 +23,7 @@ public class ArticleController {
     ArticleService articleService;
 
     @PostMapping
-    public Result add(@RequestBody Article article) {
+    public Result add(@RequestBody @Validated Article article) {
         return articleService.add(article);
     }
 
