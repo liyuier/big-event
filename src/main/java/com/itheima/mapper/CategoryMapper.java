@@ -34,7 +34,9 @@ public interface CategoryMapper {
     @Select("SELECT * FROM category WHERE id=#{userId}")
     Category findById(Integer id);
 
-    @Update("UPDATE category SET category_name=#{categoryName}, category_alias=#{categoryAlias}, update_time=#{updateTime} WHERE id=#{id}")
+    @Update("UPDATE category " +
+            "SET category_name=#{categoryName}, category_alias=#{categoryAlias}, update_time=#{updateTime} " +
+            "WHERE id=#{id}")
     void update(Category category);
 
     @Delete("DELETE FROM category WHERE id=#{id}")

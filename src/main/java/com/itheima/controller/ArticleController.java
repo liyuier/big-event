@@ -43,4 +43,9 @@ public class ArticleController {
     public Result<Article> detail(Integer id) {
         return articleService.detail(id);
     }
+
+    @PutMapping
+    public Result update(@RequestBody @Validated Article article) {
+        return articleService.update(article);
+    }
 }

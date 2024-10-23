@@ -64,4 +64,18 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return Result.success(article);
     }
+
+    @Override
+    public Result update(Article article) {
+        if (article.getId() == null) {
+            return Result.error("请携带文章ID！");
+        }
+        Article existArticle = articleMapper.findById(article.getId());
+        if (!existArticle.getCreateUser().equals(ThreadLocalUtil.getUserId())) {
+            return Result.error("没有权限修改文章！");
+        }
+        article.setUpdateTime(LocalDateTime.now());
+        articleMapper.update(article);
+        return Result.success();
+    }
 }

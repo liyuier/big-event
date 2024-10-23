@@ -18,4 +18,6 @@ public interface ArticleService {
     Result<PageBean<Article>> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
 
     Result<Article> detail(Integer id);
+
+    Result update(Article article);
 }

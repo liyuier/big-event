@@ -4,6 +4,7 @@ import com.itheima.pojo.Article;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -26,4 +27,9 @@ public interface ArticleMapper {
 
     @Select("SELECT * FROM article WHERE id=#{id}")
     Article findById(Integer id);
+
+    @Update("UPDATE article " +
+            "SET title=#{title}, content=#{content}, cover_img=#{coverImg}, state=#{state}, category_id=#{categoryId}, update_time=#{updateTime} " +
+            "WHERE id=#{id}")
+    void update(Article article);
 }
