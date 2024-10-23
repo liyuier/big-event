@@ -1,6 +1,7 @@
 package com.itheima.service;
 
 import com.itheima.pojo.Article;
+import com.itheima.pojo.PageBean;
 import com.itheima.pojo.Result;
 
 /**
@@ -13,4 +14,6 @@ import com.itheima.pojo.Result;
 
 public interface ArticleService {
     Result add(Article article);
+
+    Result<PageBean<Article>> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
 }

@@ -1,6 +1,7 @@
 package com.itheima.controller;
 
 import com.itheima.pojo.Article;
+import com.itheima.pojo.PageBean;
 import com.itheima.pojo.Result;
 import com.itheima.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,14 @@ public class ArticleController {
         return articleService.add(article);
     }
 
-    @GetMapping("/list")
-    public Result<String> list() {
-        return Result.success();
+    @GetMapping
+    public Result<PageBean<Article>> list(
+            Integer pageNum,
+            Integer pageSize,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) String state
+
+    ) {
+        return articleService.list(pageNum, pageSize, categoryId, state);
     }
 }
