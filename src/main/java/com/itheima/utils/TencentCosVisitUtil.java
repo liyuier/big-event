@@ -3,11 +3,14 @@ package com.itheima.utils;// 根据 github 提供的 maven 集成方法导入 ja
 
 import java.util.TreeMap;
 
+import com.itheima.pojo.TencentCosTmpSecret;
 import com.tencent.cloud.CosStsClient;
 import com.tencent.cloud.Policy;
 import com.tencent.cloud.Response;
 import com.tencent.cloud.Statement;
 import com.tencent.cloud.cos.util.Jackson;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @Title: TencentCosVisitUtil
@@ -17,13 +20,27 @@ import com.tencent.cloud.cos.util.Jackson;
  * @description: 腾讯云 COS SDK 使用工具类
  */
 
+@Component
 public class TencentCosVisitUtil {
-    public static void main(String[] args) {
+
+    @Value("${tencent.cos.secret-id}")
+    String secretId;
+    @Value("${tencent.cos.secret-key}")
+    String secretKey;
+    @Value("${tencent.cos.duration}")
+    Integer durationSeconds;
+    @Value("${tencent.cos.bucket.first.name}")
+    String firstBucketName;
+    @Value("${tencent.cos.bucket.first.region}")
+    String firstBucketRegion;
+
+    public TencentCosTmpSecret tryGenTmpSecret() {
         TreeMap<String, Object> config = new TreeMap<String, Object>();
         try {
-            //这里的 SecretId 和 SecretKey 代表了用于申请临时密钥的永久身份（主账号、子账号等），子账号需要具有操作存储桶的权限。
-            String secretId = System.getenv("secretId");//用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
-            String secretKey = System.getenv("secretKey");//用户的 SecretKey，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
+            String bucketAppId = firstBucketName.substring(firstBucketName.lastIndexOf("-") + 1);
+//            //这里的 SecretId 和 SecretKey 代表了用于申请临时密钥的永久身份（主账号、子账号等），子账号需要具有操作存储桶的权限。
+//            String secretId = System.getenv("secretId");//用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
+//            String secretKey = System.getenv("secretKey");//用户的 SecretKey，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140
             // 替换为您的云 api 密钥 SecretId
             config.put("secretId", secretId);
             // 替换为您的云 api 密钥 SecretKey
@@ -37,11 +54,11 @@ public class TencentCosVisitUtil {
             //config.put("host", "sts.internal.tencentcloudapi.com");
 
             // 临时密钥有效时长，单位是秒，默认 1800 秒，目前主账号最长 2 小时（即 7200 秒），子账号最长 36 小时（即 129600）秒
-            config.put("durationSeconds", 1800);
+            config.put("durationSeconds", durationSeconds);
             // 换成您的 bucket
-            config.put("bucket", "examplebucket-1250000000");
+            config.put("bucket", firstBucketName);
             // 换成 bucket 所在地区
-            config.put("region", "ap-chongqing");
+            config.put("region", firstBucketRegion);
 
             // 开始构建一条 statement
             Statement statement = new Statement();
@@ -86,9 +103,12 @@ public class TencentCosVisitUtil {
              *
              * 示例：授权examplebucket-1250000000 bucket目录下的所有资源给cos和ci 授权两条Resource
              */
+            String cosPath = String.format("qcs::cos:%s:uid/%s:%s/*", firstBucketRegion, bucketAppId, firstBucketName);
+            String ciPath = String.format("qcs::ci:%s:uid/%s:%s/*", firstBucketRegion, bucketAppId, firstBucketName);
             statement.addResources(new String[]{
-                    "qcs::cos:ap-chongqing:uid/1250000000:examplebucket-1250000000/*",
-                    "qcs::ci:ap-chongqing:uid/1250000000:bucket/examplebucket-1250000000/*"});
+                    cosPath,
+                    ciPath
+            });
 
             // 把一条 statement 添加到 policy
             // 可以添加多条
@@ -97,9 +117,11 @@ public class TencentCosVisitUtil {
             config.put("policy", Jackson.toJsonPrettyString(policy));
 
             Response response = CosStsClient.getCredential(config);
-            System.out.println(response.credentials.tmpSecretId);
-            System.out.println(response.credentials.tmpSecretKey);
-            System.out.println(response.credentials.sessionToken);
+            return new TencentCosTmpSecret(
+                    response.credentials.tmpSecretId,
+                    response.credentials.tmpSecretKey,
+                    response.credentials.sessionToken
+            );
         } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalArgumentException("no valid secret !");
