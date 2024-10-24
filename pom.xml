@@ -79,5 +79,17 @@
       <artifactId>pagehelper-spring-boot-starter</artifactId>
       <version>1.4.6</version>
     </dependency>
+
+    <!-- 腾讯云 COS 依赖 -->
+    <dependency>
+      <groupId>com.qcloud</groupId>
+      <artifactId>cos_api</artifactId>
+      <version>5.6.227</version>
+    </dependency>
+    <dependency>
+      <groupId>com.qcloud</groupId>
+      <artifactId>cos-sts_api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
   </dependencies>
 </project>

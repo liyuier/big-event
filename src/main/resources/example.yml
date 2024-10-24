@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/big_event
-    username: root
-    password: LY86358635
+    username: username
+    password: password
 
 mybatis:
   configuration:
@@ -11,5 +11,5 @@ mybatis:
 
 tencent:
   cos:
-    secret-id:
-    secret-key:
+    secret-id: secret_id
+    secret-key: secret_key
