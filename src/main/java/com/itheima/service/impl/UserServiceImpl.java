@@ -8,12 +8,15 @@ import com.itheima.utils.JwtUtil;
 import com.itheima.utils.Md5Util;
 import com.itheima.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Title: UserServiceImpl
@@ -29,6 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public Result register(String username, String password) {
@@ -59,6 +64,9 @@ public class UserServiceImpl implements UserService {
         // 登录
         // 生成 token
         String token = generateToken(user);
+        // 将 token 存储到 Redis 中
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.set("token:" + username, token, 1, TimeUnit.HOURS);  // 过期时间为 1 小时
         // 返回生成的 token
         return Result.success(token);
     }
@@ -119,6 +127,10 @@ public class UserServiceImpl implements UserService {
         }
         Integer id = (Integer) claim.get("id");
         userMapper.updatePwd(Md5Util.getMD5String(newPwd), id);
+        // 删除 Redis 中对应的 token
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.getOperations().delete("token:" + username);
+
         return Result.success();
     }
 

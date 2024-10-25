@@ -80,6 +80,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         COSCredentials cred = new BasicSessionCredentials(tmpSecretId, tmpSecretKey, sessionToken);
         // 2 设置 bucket 区域,详情请参见 COS 地域 https://cloud.tencent.com/document/product/436/6224
         ClientConfig clientConfig = new ClientConfig(new Region(firstBucketRegion));
+        clientConfig.setPrintShutdownStackTrace(false);
         // 3 生成 cos 客户端
         COSClient cosclient = new COSClient(cred, clientConfig);
         // bucket 名需包含 appid

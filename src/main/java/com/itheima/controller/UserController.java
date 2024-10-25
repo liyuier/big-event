@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PatchMapping("/updatePwd")
-    public Result updatePwd(@RequestBody Map<String, String> params) {
+    public Result updatePwd(@RequestBody Map<String, String> params, @RequestHeader("Authorization") String token) {
         return userService.updatePwd(params);
     }
 }
