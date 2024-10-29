@@ -43,8 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Result<List<Category>> list() {
-        Integer userName = ThreadLocalUtil.getUserId();
-        List<Category> categoryList = categoryMapper.list(userName);
+        Integer userId = ThreadLocalUtil.getUserId();
+        List<Category> categoryList = categoryMapper.list(userId);
         return Result.success(categoryList);
     }
 
